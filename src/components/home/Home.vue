@@ -11,7 +11,11 @@
       <li class="lista-fotos-item" v-for="foto, i in fotosFiltradas" :key="i">
 
         <meu-painel :titulo="foto.titulo">
-          <imagem-responsiva :url="foto.url" :titulo="foto.titulo"/>
+          <imagem-responsiva
+            v-meu-transform:scale.animate="1.2"
+            :url="foto.url"
+            :titulo="foto.titulo"
+          />
           <meu-botao
             tipo="button" rotulo="Remover"
             @botaoAtivado="remove(foto)"
@@ -30,11 +34,16 @@ import Painel from '../shared/painel/Painel.vue'
 import ImagemResponsiva from '../shared/imagem-responsiva/ImagemResponsiva.vue'
 import Button from '../shared/buttons/Button.vue'
 
+import transform from '../../directives/Transform';
+
 export default {
   components: {
     'meu-painel' : Painel,
     'imagem-responsiva': ImagemResponsiva,
     'meu-botao': Button
+  },
+  directives: {
+    'meu-transform': transform
   },
   data() {
     return {
