@@ -2,7 +2,7 @@
   <div>
     <h1 class="centralizado">{{ titulo }}</h1>
 
-    <p v-show="mensagem" class="centralziado"> {{ mensagem }}</p>
+    <p v-show="mensagem" class="centralizado"> {{ mensagem }}</p>
 
     <input @input="filtro = $event.target.value"
       type="search" class="filtro"
@@ -18,6 +18,10 @@
             :url="foto.url"
             :titulo="foto.titulo"
           />
+          <router-link :to="{ name: 'altera', params: { id: foto._id } }">
+            <meu-botao tipo="button" rotulo="Alterar" />
+          </router-link>
+
           <meu-botao
             tipo="button" rotulo="Remover"
             @botaoAtivado="remove(foto)"
@@ -72,7 +76,9 @@ export default {
 
     this.service
       .lista()
-      .then(fotos => this.fotos = fotos, err => console.log(err));
+      .then(fotos => this.fotos = fotos, err => {
+        this.mensagem = err.message
+      });
   },
   methods: {
     remove(foto) {
@@ -83,8 +89,7 @@ export default {
           this.mensagem = 'Foto removida com sucesso'
           },
           err => {
-            console.log(err)
-            this.mensagem = 'Não foi possível remover a foto'
+            this.mensagem = err.message
           }
         )
     }
